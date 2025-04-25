@@ -58,11 +58,8 @@ function matchAndRewriteURL({ originalURL, prefix, prefixHost, target }) {
 
 		newURL.pathname = proxyPath;
 	}
-
-	// Remove the target's path from the new url path
-	if (!newURL.pathname.startsWith(PROXY_PREFIX)) {
-		newURL.pathname = newURL.pathname.replace(targetURL.pathname, '');
-	}
+    // Remove the target's path from the new url path
+    newURL.pathname = newURL.pathname.replace(targetURL.pathname, '');
     // Add a trailing slash if original url had it, and if it doesn't already have one or if matches filename regex
     if (originalURL.pathname.endsWith('/') && !newURL.pathname.endsWith('/')) {
         newURL.pathname += '/';
