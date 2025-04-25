@@ -43,21 +43,10 @@ function matchAndRewriteURL({ originalURL, prefix, prefixHost, target }) {
     // Append the original path
     newURL.pathname += newURL.pathname === '/' ? originalURL.pathname.slice(1) : originalURL.pathname;
     // prepend /.proxy/ to path if using discord activities proxy
-	// @HelloKitty: Custom change to include the port in the path
     if ((newURL.hostname.includes('discordsays.com') || newURL.hostname.includes('discordsez.com')) &&
-		!newURL.pathname.startsWith(PROXY_PREFIX)) {
-		
-		const defaultPort = (scheme) => (scheme === 'https:' ? '443' : '80');
-		const portNeeded = newURL.port && newURL.port !== defaultPort(newURL.protocol);
-
-		let proxyPath = PROXY_PREFIX + newURL.hostname;
-		if (portNeeded) {
-			proxyPath += `:${newURL.port}`;
-		}
-		proxyPath += newURL.pathname;
-
-		newURL.pathname = proxyPath;
-	}
+        !newURL.pathname.startsWith(PROXY_PREFIX)) {
+        newURL.pathname = PROXY_PREFIX + newURL.pathname;
+    }
     // Remove the target's path from the new url path
     newURL.pathname = newURL.pathname.replace(targetURL.pathname, '');
     // Add a trailing slash if original url had it, and if it doesn't already have one or if matches filename regex
